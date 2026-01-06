@@ -18,7 +18,10 @@ class Solution {
             
             for(String numStr : numbers){
                 int number = Integer.parseInt(numStr);
-                // TODO: 여기서 뭐 해야 할까요?
+                // 여기서 !result.contains(number) 가 아닌 Set 로 비교한 이유
+                // Set.contains()는 해시 테이블로 바로 찾음 -> O(1)
+                // List.contains()는 처음 부터 끝까지 탐색 -> O(n)
+                // 성능 차이가 크기 때문에 Set로 탐색후 list에 추가
                 if(!appeared.contains(number)){
                     result.add(number);
                     appeared.add(number);
