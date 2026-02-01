@@ -24,6 +24,8 @@ public class Main {
             char left = st.nextToken().charAt(0);
             char right = st.nextToken().charAt(0);
 
+
+            // Java에서 char 데이터 타입은 내부적으로 ASCII 코드 사용
             int parentIdx = parent - 'A'; // A->0, B->1...
             if (nodes[parentIdx] == null) {
                 nodes[parentIdx] = new Node(parent);
@@ -47,6 +49,7 @@ public class Main {
         postorder(nodes[0]);
     }
 
+    //전위 순회
     static void preorder(Node node) {
         if (node == null)
             return;
@@ -55,6 +58,8 @@ public class Main {
         preorder(node.right);
     }
 
+
+    //중위 순회
     static void inorder(Node node) {
         if (node == null)
             return;
@@ -63,6 +68,8 @@ public class Main {
         inorder(node.right);
     }
 
+
+    //후위 순회
     static void postorder(Node node) {
         if (node == null)
             return;
