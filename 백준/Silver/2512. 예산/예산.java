@@ -1,49 +1,46 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
         int[] request = new int[n];
-        int sum = 0;
-        int max = 0;
 
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int max = 0;
         for (int i = 0; i < n; i++) {
             request[i] = Integer.parseInt(st.nextToken());
-            sum += request[i];
-            if (max < request[i]) {
-                max = request[i];
-            }
+            max = Math.max(max, request[i]);
         }
 
-        Arrays.sort(request);
+        int M = Integer.parseInt(br.readLine());
 
-        int money = Integer.parseInt(br.readLine());
-        int nowmoney = money;
-        int nowcity = n;
-        int sparemoney = 0;
-        int result = max;
+        int left = 0;
+        int right = max;
+        int answer = 0;
 
-        if (sum < money) {
-            System.out.println(max);
-        } else {
+        // 상한액을 이분 탐색
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            long sum = 0;
+
+            // 현재 상한액(mid)으로 예산 배정 시 총합 계산
             for (int i = 0; i < n; i++) {
-                int maxmoney = nowmoney / nowcity;
-                if (request[i] <= maxmoney) {
-                    nowmoney -= request[i];
-                    nowcity--;
-                    // 남은 상환액 계산
-                    // sparemoney += (money / n) - request[i];
-                } else {
-                    // result = (money / n) + (sparemoney / (n - i));
-                    result = maxmoney;
-                    break;
-                }
+                sum += Math.min(request[i], mid);
             }
-            System.out.println(result);
+
+            if (sum <= M) {
+                // 조건 만족 → 상한액을 더 키워볼 수 있음
+                answer = mid;
+                left = mid + 1;
+            } else {
+                // 예산 초과 → 상한액 줄여야 함
+                right = mid - 1;
+            }
         }
+
+        System.out.println(answer);
     }
 }
